@@ -264,8 +264,6 @@ Monthly MRR Added: $2,250-3,750
 | Reply Rate | 8%+ | 4-7% | <4% |
 | Meeting Book Rate | 2%+ | 1-2% | <1% |
 | Close Rate | 25%+ | 15-24% | <15% |
-| Revenue per Email | $1.50+ | $0.75-1.49 | <$0.75 |
-
 ---
 
 ## Implementation Timeline
