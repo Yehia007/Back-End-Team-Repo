@@ -740,7 +740,7 @@ flowchart TD
     classDef leader fill:#0d47a1,color:#ffffff,stroke:#062863,stroke-width:2px
     classDef support fill:#e3f2fd,color:#0d47a1,stroke:#90caf9
 
-    OM[Operations Manager]:::leader --> QA[QA Analyst<br/>Coverage: 2 Teams (20-24 Agents)]:::support
+    OM[Operations Manager]:::leader --> QA["QA Analyst<br/>Coverage: 2 Teams (20-24 Agents)"]:::support
     OM --> AOM[Assistant Ops Manager<br/>Supervises 4 Team Leaders]:::support
     QA --> TL1[Team Leader 1<br/>10-12 Agents]:::support
     QA --> TL2[Team Leader 2<br/>10-12 Agents]:::support
