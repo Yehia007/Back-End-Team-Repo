@@ -62,14 +62,14 @@ flowchart TD
     classDef qaRole fill:#004d40,color:#ffffff,stroke:#00251a,stroke-width:2px
     classDef qaDetail fill:#e0f2f1,color:#004d40,stroke:#4db6ac
 
-    QAModel["QA Analyst Coverage Model<br/>• 1 QA Analyst per 2 Teams<br/>• 4 QA Analysts for 8 Teams Total<br/>• Each monitors 20-24 Agents<br/>• Reports to Operations Manager<br/>• 100% Appointment Review Required"]:::qaRole
-    QAModel --> QA1["QA Analyst #1<br/>Covers TL 1 & TL 2<br/>20-24 Agents"]:::qaDetail
-    QAModel --> QA2["QA Analyst #2<br/>Covers TL 3 & TL 4<br/>20-24 Agents"]:::qaDetail
-    QAModel --> QA3["QA Analyst #3<br/>Covers TL 5 & TL 6<br/>20-24 Agents"]:::qaDetail
-    QAModel --> QA4["QA Analyst #4<br/>Covers TL 7 & TL 8<br/>20-24 Agents"]:::qaDetail
-    QAModel --> QAExtra["Additional QA Analysts (as needed)"]:::qaDetail
+    QAModel["QA Analyst Coverage Model<br/>1 Analyst per 2 Teams<br/>4 Analysts for 8 Teams<br/>Monitors 20-24 Agents<br/>Reports to Operations Manager<br/>100% Appointment Review"]:::qaRole
+    QAModel --> QA1["QA Analyst #1<br/>Covers TL 1 &amp; TL 2<br/>20-24 Agents"]:::qaDetail
+    QAModel --> QA2["QA Analyst #2<br/>Covers TL 3 &amp; TL 4<br/>20-24 Agents"]:::qaDetail
+    QAModel --> QA3["QA Analyst #3<br/>Covers TL 5 &amp; TL 6<br/>20-24 Agents"]:::qaDetail
+    QAModel --> QA4["QA Analyst #4<br/>Covers TL 7 &amp; TL 8<br/>20-24 Agents"]:::qaDetail
+    QAModel --> QAExtra["Additional QA Analysts<br/>(as needed)"]:::qaDetail
 
-    QAOutputs["QA Reports & Analysis<br/>• Weekly Quality Scorecards (All Agents)<br/>• 100% Appointment QA Status (Pass/Fail/Needs Confirmation)<br/>• Bi-Weekly Disposition Accuracy Reports<br/>• Monthly Trend Analysis<br/>• Coaching Recommendations to Team Leaders<br/>• Minimum 5 calls per agent/week from each disposition"]:::qaRole
+    QAOutputs["QA Reports &amp; Analysis<br/>Weekly Quality Scorecards<br/>100% Appointment QA Status<br/>Bi-Weekly Disposition Accuracy<br/>Monthly Trend Analysis<br/>Coaching Recommendations<br/>Minimum 5 calls per agent/week"]:::qaRole
     QA1 --> QAOutputs
     QA2 --> QAOutputs
     QA3 --> QAOutputs
