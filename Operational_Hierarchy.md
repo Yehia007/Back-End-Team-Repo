@@ -22,203 +22,112 @@ This document outlines the operational hierarchy for both Physical and Virtual C
 
 ### Hierarchy Levels
 
+```mermaid
+flowchart TD
+    classDef role fill:#0d47a1,color:#ffffff,stroke:#062863,stroke-width:2px
+    classDef team fill:#e3f2fd,color:#0d47a1,stroke:#90caf9,stroke-width:1px
+    classDef agents fill:#ffffff,color:#0d47a1,stroke:#90caf9,stroke-dasharray:3 3
+
+    OM["Operations Manager<br/>(Oversees Entire Operation)<br/>80-96 Agents | Max 2 Divisions"]:::role
+    OM --> AOM1["Assistant Ops Manager (Division 1)<br/>• 40-48 Agents<br/>• 4 Team Leaders"]:::role
+    OM --> AOM2["Assistant Ops Manager (Division 2)<br/>• 40-48 Agents<br/>• 4 Team Leaders"]:::role
+
+    subgraph Division_1[Division 1]
+        direction TB
+        AOM1 --> TL1["Team Leader 1<br/>• 10-12 Agents"]:::team
+        AOM1 --> TL2["Team Leader 2<br/>• 10-12 Agents"]:::team
+        AOM1 --> TL3["Team Leader 3<br/>• 10-12 Agents"]:::team
+        AOM1 --> TL4["Team Leader 4<br/>• 10-12 Agents"]:::team
+        TL1 --> AG1["Agents 1-12"]:::agents
+        TL2 --> AG2["Agents 13-24"]:::agents
+        TL3 --> AG3["Agents 25-36"]:::agents
+        TL4 --> AG4["Agents 37-48"]:::agents
+    end
+
+    subgraph Division_2[Division 2]
+        direction TB
+        AOM2 --> TL5["Team Leader 5<br/>• 10-12 Agents"]:::team
+        AOM2 --> TL6["Team Leader 6<br/>• 10-12 Agents"]:::team
+        AOM2 --> TL7["Team Leader 7<br/>• 10-12 Agents"]:::team
+        AOM2 --> TL8["Team Leader 8<br/>• 10-12 Agents"]:::team
+        TL5 --> AG5["Agents 49-60"]:::agents
+        TL6 --> AG6["Agents 61-72"]:::agents
+        TL7 --> AG7["Agents 73-84"]:::agents
+        TL8 --> AG8["Agents 85-96"]:::agents
+    end
 ```
-                            ╔═══════════════════════════════════════════════════════╗
-                            ║                                                       ║
-                            ║           OPERATIONS MANAGER                          ║
-                            ║                                                       ║
-                            ║         (Oversees Entire Operation)                   ║
-                            ║         80-96 Agents | Max 2 Divisions                ║
-                            ║                                                       ║
-                            ╚═══════════════════════════════════════════════════════╝
-                                                    │
-                                                    │
-                                    ┌───────────────┴───────────────┐
-                                    │                               │
-                                    │                               │
-                                    ▼                               ▼
-                ╔═══════════════════════════╗       ╔═══════════════════════════╗
-                ║   ASSISTANT OPS MANAGER   ║       ║   ASSISTANT OPS MANAGER   ║
-                ║         (Division 1)      ║       ║         (Division 2)      ║
-                ║                           ║       ║                           ║
-                ║   • 40-48 Agents          ║       ║   • 40-48 Agents          ║
-                ║   • 4 Team Leaders        ║       ║   • 4 Team Leaders        ║
-                ╚═══════════════════════════╝       ╚═══════════════════════════╝
-                            │                                       │
-                            │                                       │
-            ┌───────────────┼───────────┬───────────┐       ┌───────────────┼───────────┬───────────┐
-            │               │           │           │       │               │           │           │
-            ▼               ▼           ▼           ▼       ▼               ▼           ▼           ▼
-        ┌────────┐      ┌────────┐  ┌────────┐  ┌────────┐   ┌────────┐   ┌────────┐  ┌────────┐  ┌────────┐
-        │ TEAM   │      │ TEAM   │  │ TEAM   │  │ TEAM   │   │ TEAM   │   │ TEAM   │  │ TEAM   │  │ TEAM   │
-        │LEADER 1│      │LEADER 2│  │LEADER 3│  │LEADER 4│   │LEADER 5│   │LEADER 6│  │LEADER 7│  │LEADER 8│
-        │        │      │        │  │        │  │        │   │        │   │        │  │        │  │        │
-        │ 10-12  │      │ 10-12  │  │ 10-12  │  │ 10-12  │   │ 10-12  │   │ 10-12  │  │ 10-12  │  │ 10-12  │
-        │ Agents │      │ Agents │  │ Agents │  │ Agents │   │ Agents │   │ Agents │  │ Agents │  │ Agents │
-        └────┬───┘      └────┬───┘  └────┬───┘  └────┬───┘   └────┬───┘   └────┬───┘  └────┬───┘  └────┬───┘
-             │               │           │           │             │             │           │           │
-             │               │           │           │             │             │           │           │
-        ┌────┴───┐      ┌────┴───┐ ┌────┴───┐ ┌────┴───┐    ┌────┴───┐    ┌────┴───┐ ┌────┴───┐ ┌────┴───┐
-        │        │      │        │ │        │ │        │    │        │    │        │ │        │ │        │
-  ┌─────┴─┬─┐ ┌─┴──┬──┐ ┌─┴─┬─┐ ┌──┴─┬──┐ ┌──┴─┬──┐    ┌──┴─┬──┐    ┌──┴─┬──┐ ┌──┴─┬──┐ ┌──┴─┬──┐
-  │Agents │ │ │Agents│  │Agts│ │ │Agts│  │ │Agts│  │    │Agts│  │    │Agts│  │ │Agts│  │ │Agts│  │
-  │ 1-12  │ │ │13-24 │  │25-36│ │ │37-48│  │ │49-60│    │61-72│    │73-84│ │ │85-96│ │ │       │
-  └───────┴─┘ └──────┘  └─────┘ └──────┘  └──────┘    └──────┘    └──────┘ └──────┘ └──────┘
 
+```mermaid
+flowchart TD
+    classDef qaRole fill:#004d40,color:#ffffff,stroke:#00251a,stroke-width:2px
+    classDef qaDetail fill:#e0f2f1,color:#004d40,stroke:#4db6ac
 
-                    ╔═══════════════════════════════════════════════════╗
-                    ║                                                   ║
-                    ║          QA ANALYST COVERAGE MODEL                ║
-                    ║                                                   ║
-                    ║      • 1 QA Analyst per 2 Teams                  ║
-                    ║      • 4 QA Analysts for 8 Teams Total           ║
-                    ║      • Each monitors 20-24 Agents                ║
-                    ║      • Reports to Operations Manager             ║
-                    ║      • 100% Appointment Review Required          ║
-                    ║                                                   ║
-                    ╚═══════════════════════════════════════════════════╝
-                                        │
-                                        │
-            ┌───────────────────────────┼───────────────────────────┐
-            │                           │                           │
-            │                           │                           │
-       ┌────┴─────┐               ┌────┴─────┐               ┌────┴─────┐
-       │          │               │          │               │          │
-       ▼          ▼               ▼          ▼               ▼          ▼
-  ┌────────┐  ┌────────┐    ┌────────┐  ┌────────┐    ┌────────┐  ┌────────┐
-  │   QA   │  │   QA   │    │   QA   │  │   QA   │    │   QA   │  │   QA   │
-  │ANALYST │  │ANALYST │    │ANALYST │  │ANALYST │    │ANALYST │  │ANALYST │
-  │   #1   │  │   #2   │    │   #3   │  │   #4   │    │ (Add'l │  │ (Add'l │
-  │        │  │        │    │        │  │        │    │   as   │  │   as   │
-  │Covers: │  │Covers: │    │Covers: │  │Covers: │    │ needed)│  │ needed)│
-  │ TL 1&2 │  │ TL 3&4 │    │ TL 5&6 │  │ TL 7&8 │    │        │  │        │
-  │20-24Ag │  │20-24Ag │    │20-24Ag │  │20-24Ag │    │        │  │        │
-  └────┬───┘  └────┬───┘    └────┬───┘  └────┬───┘    └────────┘  └────────┘
-       │           │             │           │
-       │           │             │           │
-       └───────────┴─────────────┴───────────┘
-                   │
-                   ▼
-  ┌─────────────────────────────────────────────────────────────────┐
-  │                                                                 │
-  │                  QA REPORTS & ANALYSIS                          │
-  │                                                                 │
-  │  • Weekly Quality Scorecards (All Agents)                       │
-  │  • 100% Appointment QA Status [Pass/Fail/Needs Confirmation]   │
-  │  • Bi-Weekly Disposition Accuracy Reports                       │
-  │  • Monthly Trend Analysis                                       │
-  │  • Coaching Recommendations to Team Leaders                     │
-  │  • Minimum 5 calls per agent/week from each disposition         │
-  │                                                                 │
-  └─────────────────────────────────────────────────────────────────┘
+    QAModel["QA Analyst Coverage Model<br/>• 1 QA Analyst per 2 Teams<br/>• 4 QA Analysts for 8 Teams Total<br/>• Each monitors 20-24 Agents<br/>• Reports to Operations Manager<br/>• 100% Appointment Review Required"]:::qaRole
+    QAModel --> QA1["QA Analyst #1<br/>Covers TL 1 & TL 2<br/>20-24 Agents"]:::qaDetail
+    QAModel --> QA2["QA Analyst #2<br/>Covers TL 3 & TL 4<br/>20-24 Agents"]:::qaDetail
+    QAModel --> QA3["QA Analyst #3<br/>Covers TL 5 & TL 6<br/>20-24 Agents"]:::qaDetail
+    QAModel --> QA4["QA Analyst #4<br/>Covers TL 7 & TL 8<br/>20-24 Agents"]:::qaDetail
+    QAModel --> QAExtra["Additional QA Analysts (as needed)"]:::qaDetail
+
+    QAOutputs["QA Reports & Analysis<br/>• Weekly Quality Scorecards (All Agents)<br/>• 100% Appointment QA Status (Pass/Fail/Needs Confirmation)<br/>• Bi-Weekly Disposition Accuracy Reports<br/>• Monthly Trend Analysis<br/>• Coaching Recommendations to Team Leaders<br/>• Minimum 5 calls per agent/week from each disposition"]:::qaRole
+    QA1 --> QAOutputs
+    QA2 --> QAOutputs
+    QA3 --> QAOutputs
+    QA4 --> QAOutputs
+    QAExtra --> QAOutputs
 ```
 
 ### Span of Control Visual
 
+| Role | Direct Supervision | Indirect Oversight | Notes |
+| --- | --- | --- | --- |
+| Operations Manager | Maximum 2 Assistant Ops Managers | 80-96 Agents | Oversees 8 teams across 2 divisions |
+| Assistant Operations Manager | 4 Team Leaders | 40-48 Agents | Leads 1 division composed of 4 teams |
+| Team Leader | 10-12 Agents | N/A | Leads a single team |
+| QA Analyst | 2 Teams (20-24 Agents) | N/A | Reports directly to Operations Manager |
+
+```mermaid
+flowchart TD
+    classDef node fill:#1b5e20,color:#ffffff,stroke:#0b3d0b,stroke-width:2px
+    classDef qa fill:#e8f5e9,color:#1b5e20,stroke:#66bb6a
+
+    Agent[Agent]:::qa --> TL[Team Leader]:::node
+    TL --> AOM[Assistant Ops Manager]:::node
+    AOM --> OM[Operations Manager]:::node
+    QA[QA Analyst]:::qa --> OM
 ```
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                        SPAN OF CONTROL BREAKDOWN                          ║
-╚═══════════════════════════════════════════════════════════════════════════╝
 
-    Operations Manager
-           │
-           ├─── Directly Supervises: Maximum 2 Assistant Ops Managers
-           ├─── Indirectly Oversees: 80-96 Agents
-           └─── Total Teams: 8 Teams
+```mermaid
+flowchart LR
+    classDef feedback fill:#fff3e0,color:#e65100,stroke:#fb8c00
 
-
-    Assistant Operations Manager
-           │
-           ├─── Directly Supervises: 4 Team Leaders
-           ├─── Indirectly Oversees: 40-48 Agents
-           └─── Division Size: 4 Teams
-
-
-    Team Leader
-           │
-           ├─── Directly Supervises: 10-12 Agents
-           └─── Team Size: 1 Team
-
-
-    QA Analyst
-           │
-           ├─── Monitors: 2 Teams (20-24 Agents)
-           └─── Reports To: Operations Manager
-
-
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                          REPORTING RELATIONSHIPS                          ║
-╚═══════════════════════════════════════════════════════════════════════════╝
-
-    DIRECT REPORTING LINES:
-
-    Agent ────────────► Team Leader
-                             │
-                             ▼
-    Team Leader ────────► Assistant Ops Manager
-                             │
-                             ▼
-    Assistant Ops Mgr ──► Operations Manager
-
-
-    QA Analyst ──────────► Operations Manager
-
-
-    COACHING & FEEDBACK FLOW:
-
-    QA Analyst ──┐
-                 ├───► Team Leader ────► Agent
-    Asst Ops Mgr ┘         │
-                           │
-                      (Daily Coaching)
+    QAFeedback[QA Analyst Feedback]:::feedback --> TLCoaching[Team Leader Daily Coaching]:::feedback --> AgentAction[Agent Action & Improvement]:::feedback
+    AOMSupport[Assistant Ops Manager Support]:::feedback --> TLCoaching
 ```
 
 ### Single Division Deep Dive
 
+```mermaid
+flowchart TD
+    classDef manager fill:#283593,color:#ffffff,stroke:#1a237e,stroke-width:2px
+    classDef leader fill:#e8eaf6,color:#1a237e,stroke:#9fa8da
+    classDef qa fill:#fce4ec,color:#ad1457,stroke:#f06292
+
+    AOM["Assistant Ops Manager<br/>Manages 4 Team Leaders<br/>Oversees 40-48 Agents"]:::manager
+    AOM --> TL1["Team Leader #1<br/>10 Agents"]:::leader
+    AOM --> TL2["Team Leader #2<br/>12 Agents"]:::leader
+    AOM --> TL3["Team Leader #3<br/>11 Agents"]:::leader
+    AOM --> TL4["Team Leader #4<br/>12 Agents"]:::leader
+
+    QA["QA Analyst<br/>Monitors Team Leaders #1 & #2<br/>22 Agents Total"]:::qa --> TL1
+    QA --> TL2
 ```
-╔════════════════════════════════════════════════════════════════════════╗
-║              ASSISTANT OPS MANAGER - SINGLE DIVISION VIEW              ║
-║                          (40-48 Agents)                                ║
-╚════════════════════════════════════════════════════════════════════════╝
 
-                    ┌────────────────────────┐
-                    │ ASSISTANT OPS MANAGER  │
-                    │                        │
-                    │  Manages 4 TLs         │
-                    │  Oversees 40-48 Agents │
-                    └───────────┬────────────┘
-                                │
-                ┌───────────────┼───────────────┬───────────────┐
-                │               │               │               │
-                ▼               ▼               ▼               ▼
-        ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
-        │  TL #1   │    │  TL #2   │    │  TL #3   │    │  TL #4   │
-        ├──────────┤    ├──────────┤    ├──────────┤    ├──────────┤
-        │ 10 Agents│    │ 12 Agents│    │ 11 Agents│    │ 12 Agents│
-        └────┬─────┘    └────┬─────┘    └────┬─────┘    └────┬─────┘
-             │               │               │               │
-    ┌────────┼───┐   ┌───────┼──────┐  ┌─────┼──────┐  ┌─────┼──────┐
-    ▼        ▼   ▼   ▼       ▼      ▼  ▼     ▼      ▼  ▼     ▼      ▼
-  [AG1] ... [AG10] [AG11] ... [AG22]  [AG23] ... [AG33] [AG34] ... [AG45]
-
-
-             ┌──────────────────────────────┐
-             │      QA ANALYST              │
-             │                              │
-             │  Monitors TL #1 & TL #2      │
-             │  (22 Agents Total)           │
-             └──────────────────────────────┘
-                          │
-                          │ Provides Weekly Reports
-                          ▼
-        ┌─────────────────────────────────────────┐
-        │  QA Reports sent to:                    │
-        │  • Individual Agents                    │
-        │  • Team Leaders #1 & #2                 │
-        │  • Assistant Ops Manager                │
-        │  • Operations Manager                   │
-        └─────────────────────────────────────────┘
-```
+**QA Reporting Recipients:**
+- Individual Agents (Teams 1 & 2)
+- Team Leaders #1 and #2
+- Assistant Operations Manager
+- Operations Manager
 
 ---
 
@@ -440,88 +349,35 @@ This document outlines the operational hierarchy for both Physical and Virtual C
 
 **Appointment Management Workflow Visual:**
 
-```
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                                                                           ║
-║              APPOINTMENT MANAGEMENT & QA WORKFLOW                         ║
-║                                                                           ║
-╚═══════════════════════════════════════════════════════════════════════════╝
+```mermaid
+flowchart TD
+    classDef action fill:#0d47a1,color:#ffffff,stroke:#062863,stroke-width:2px
+    classDef review fill:#e3f2fd,color:#0d47a1,stroke:#90caf9
+    classDef decision fill:#ffd54f,color:#4e342e,stroke:#ffb300
+    classDef outcome fill:#004d40,color:#ffffff,stroke:#00251a
+    classDef followup fill:#f8bbd0,color:#880e4f,stroke:#f06292
 
+    Agent["Agent Sets Appointment<br/>Disposition in VICI Dial"]:::action --> TLMonitor["Team Leader Monitors<br/>• Reviews all appointments<br/>• Checks VICI Dial for details"]:::review
+    TLMonitor --> QAReview["QA Analyst Listens<br/>• 100% of all appointments<br/>• Reviews call recording<br/>• Evaluates quality"]:::review
+    QAReview --> QAStatus["QA Status Determination"]:::decision
 
-    ┌──────────────────┐
-    │  AGENT SETS      │
-    │  APPOINTMENT     │
-    └────────┬─────────┘
-             │
-             │ Disposition in VICI Dial
-             │
-             ▼
-    ┌──────────────────────────────────────┐
-    │  TEAM LEADER MONITORS                │
-    │  • Reviews all appointments in system │
-    │  • Checks VICI Dial for details       │
-    └────────┬─────────────────────────────┘
-             │
-             │ Sends to QA for Review
-             │
-             ▼
-    ┌──────────────────────────────────────┐
-    │  QA ANALYST LISTENS                  │
-    │  • 100% of all appointments          │
-    │  • Reviews call recording            │
-    │  • Evaluates quality                 │
-    └────────┬─────────────────────────────┘
-             │
-             │ Submits QA Status
-             │
-             ▼
-    ┌─────────────────────────────────────────────────┐
-    │          QA STATUS DETERMINATION                │
-    ├─────────────────────────────────────────────────┤
-    │                                                 │
-    │  ┌──────────┐    ┌──────────┐    ┌──────────┐ │
-    │  │   PASS   │    │   FAIL   │    │  NEEDS   │ │
-    │  │          │    │          │    │  CONFIRM │ │
-    │  └────┬─────┘    └────┬─────┘    └────┬─────┘ │
-    │       │               │               │       │
-    └───────┼───────────────┼───────────────┼───────┘
-            │               │               │
-            ▼               ▼               ▼
-     ┌──────────┐   ┌──────────────┐  ┌──────────────┐
-     │ TL GETS  │   │  TL NOTIFIED │  │  TL NOTIFIED │
-     │ APPROVAL │   │   OF FAIL    │  │ FOR CONFIRM  │
-     └────┬─────┘   └───────┬──────┘  └──────┬───────┘
-          │                 │                 │
-          │                 │                 │
-          ▼                 ▼                 ▼
-   ┌─────────────┐   ┌────────────────┐  ┌────────────┐
-   │TEAM LEADER  │   │  TEAM LEADER   │  │TEAM LEADER │
-   │ SCHEDULES   │   │  INVESTIGATES  │  │   CALLS    │
-   │CONFIRMATION │   │  WITH AGENT    │  │  TO VERIFY │
-   │   CALL      │   │                │  │            │
-   └──────┬──────┘   └───────┬────────┘  └──────┬─────┘
-          │                  │                   │
-          │                  │                   │
-          ▼                  ▼                   ▼
-   ┌─────────────┐   ┌───────────────┐   ┌─────────────┐
-   │  TL CALLS   │   │ COACHING      │   │ CONFIRMATION│
-   │  CLIENT TO  │   │ SESSION WITH  │   │ CALL MADE   │
-   │  CONFIRM    │   │ AGENT ON      │   │             │
-   │ APPOINTMENT │   │ FAILED APPT   │   │ Status      │
-   └──────┬──────┘   └───────┬───────┘   │ Determined  │
-          │                  │            └──────┬──────┘
-          │                  │                   │
-          ▼                  ▼                   ▼
-   ┌──────────────────────────────────────────────────┐
-   │  TEAM LEADER COMMUNICATES TO CLIENT/OPS MGR:     │
-   │                                                  │
-   │  • Confirmed Appointments (Date/Time)            │
-   │  • Scheduled Appointments Awaiting Confirmation  │
-   │  • Rescheduled Appointments                      │
-   │  • Cancelled Appointments                        │
-   │  • No-Show Risk Assessments                      │
-   │                                                  │
-   └──────────────────────────────────────────────────┘
+    QAStatus -->|Pass| Pass["Team Leader Gets Approval"]:::outcome
+    Pass --> ConfirmCall["Team Leader Schedules Confirmation Call"]:::followup --> ClientConfirm["Team Leader Calls Client to Confirm Appointment"]:::action
+
+    QAStatus -->|Fail| FailNotify["Team Leader Notified of Fail"]:::outcome
+    FailNotify --> Investigate["Team Leader Investigates with Agent"]:::followup --> Coaching["Coaching Session with Agent on Failed Appointment"]:::followup
+
+    QAStatus -->|Needs Confirmation| NeedsNotify["Team Leader Notified for Confirmation"]:::outcome
+    NeedsNotify --> Verify["Team Leader Calls to Verify Status"]:::followup --> StatusSet["Confirmation Status Determined"]:::decision
+
+    ClientConfirm --> Communicate["Team Leader Communicates to Client/Operations Manager
+• Confirmed Appointments (Date/Time)
+• Scheduled Appointments Awaiting Confirmation
+• Rescheduled Appointments
+• Cancelled Appointments
+• No-Show Risk Assessments"]:::action
+    Coaching --> Communicate
+    StatusSet --> Communicate
 ```
 
 ---
@@ -578,27 +434,14 @@ This document outlines the operational hierarchy for both Physical and Virtual C
 
 **Reporting Structure:**
 
-```
-┌──────────────────────┐
-│  Operations Manager  │
-└──────────┬───────────┘
-           │
-           ▼
-    ┌──────────────┐
-    │ QA Analyst   │
-    │              │
-    │ Covers 2     │
-    │ Teams        │
-    └──────┬───────┘
-           │
-      ┌────┴────┐
-      ▼         ▼
-   ┌────┐    ┌────┐
-   │TL-1│    │TL-2│
-   │    │    │    │
-   │10-12   │10-12│
-   │Agts│    │Agts│
-   └────┘    └────┘
+```mermaid
+flowchart TD
+    classDef leader fill:#0d47a1,color:#ffffff,stroke:#062863,stroke-width:2px
+    classDef support fill:#e3f2fd,color:#0d47a1,stroke:#90caf9
+
+    OM[Operations Manager]:::leader --> QA[QA Analyst<br/>Covers 2 Teams]:::support
+    QA --> TL1[Team Leader 1<br/>10-12 Agents]:::support
+    QA --> TL2[Team Leader 2<br/>10-12 Agents]:::support
 ```
 
 **Reporting Frequency:**
@@ -661,114 +504,21 @@ Based on the Effective Coaching methodology, the following coaching approaches a
 
 **8-Step Coaching Framework:**
 
-```
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                                                                           ║
-║                    FORMAL 1-ON-1 COACHING SESSION                         ║
-║                         (30-45 Minutes)                                   ║
-║                                                                           ║
-╚═══════════════════════════════════════════════════════════════════════════╝
+| Step | Duration | Focus | Key Actions |
+| --- | --- | --- | --- |
+| 1. Ice Breaking | 5 minutes | Create comfortable environment | Positive, friendly opening; brief non-work conversation; build rapport and trust |
+| 2. Discovery | 5 minutes | Diagnose performance opportunities | Identify root causes; review call recordings/metrics; highlight strengths and opportunities with specific examples |
+| 3. Listening & Containing | 5-7 minutes | Understand agent perspective | Allow agent to vent; practice active listening; show genuine empathy; acknowledge viewpoints |
+| 4. Education | 8-10 minutes | Collaboratively build solutions | Discuss improvement opportunities; co-create solutions; confirm understanding; role-play scenarios and leverage learning tools |
+| 5. S.M.A.R.T Technique | 5-7 minutes | Establish goals | Define Specific, Measurable, Achievable, Relevant, and Time-bound commitments |
+| 6. Ensure Understanding | 3-5 minutes | Validate clarity | Ask probing questions; recap key points; adjust educational tools as needed; confirm comprehension |
+| 7. Coaching Effectiveness | 2-3 minutes | Confirm expectations | Clarify session length; align on outcomes; schedule follow-up; document agreements |
+| 8. Praise / Action | 2-3 minutes | Motivate and close | Send recognition; outline motivational action plan; reinforce positive behaviors; set corrective actions if needed |
 
-
-    ┌─────────────────────────────────────────────────────────────┐
-    │                    STEP 1: ICE BREAKING                     │
-    │                         (5 minutes)                         │
-    ├─────────────────────────────────────────────────────────────┤
-    │  ✓ Positive, friendly opening                               │
-    │  ✓ Non-work related conversation                            │
-    │  ✓ Create comfortable environment                           │
-    │  ✓ Build rapport and trust                                  │
-    └─────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │                     STEP 2: DISCOVERY                       │
-    │                         (5 minutes)                         │
-    ├─────────────────────────────────────────────────────────────┤
-    │  ✓ Identify root cause of issues                            │
-    │  ✓ Use educational tools (call recordings, metrics)         │
-    │  ✓ Discuss strengths & opportunities                        │
-    │  ✓ Focus on specific examples                               │
-    └─────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │                STEP 3: LISTENING & CONTAINING               │
-    │                         (5-7 minutes)                       │
-    ├─────────────────────────────────────────────────────────────┤
-    │  ✓ Provide space for agent to vent                          │
-    │  ✓ Practice active listening                                │
-    │  ✓ Show genuine empathy                                     │
-    │  ✓ Acknowledge agent's perspective                          │
-    └─────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │                     STEP 4: EDUCATION                       │
-    │                         (8-10 minutes)                      │
-    ├─────────────────────────────────────────────────────────────┤
-    │  ✓ Discuss specific opportunities for improvement           │
-    │  ✓ Be part of the solution (collaborative)                  │
-    │  ✓ Ensure clear understanding                               │
-    │  ✓ Select appropriate educational tools                     │
-    │  ✓ Role-play scenarios if needed                            │
-    └─────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │                 STEP 5: S.M.A.R.T TECHNIQUE                 │
-    │                         (5-7 minutes)                       │
-    ├─────────────────────────────────────────────────────────────┤
-    │  S - Specific goals (What exactly will be done?)            │
-    │  M - Measurable outcomes (How will success be measured?)    │
-    │  A - Achievable targets (Is this realistic?)                │
-    │  R - Relevant expectations (Does this address the issue?)   │
-    │  T - Time-bound deadlines (When will this be achieved?)     │
-    └─────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │                STEP 6: ENSURE UNDERSTANDING                 │
-    │                         (3-5 minutes)                       │
-    ├─────────────────────────────────────────────────────────────┤
-    │  ✓ Ask probing questions                                    │
-    │  ✓ Use different educational tools if needed                │
-    │  ✓ Recap all key points                                     │
-    │  ✓ Confirm agent comprehension                              │
-    └─────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │               STEP 7: COACHING EFFECTIVENESS                │
-    │                         (2-3 minutes)                       │
-    ├─────────────────────────────────────────────────────────────┤
-    │  ✓ Define total session duration                            │
-    │  ✓ Set clear outcome expectations                           │
-    │  ✓ Plan specific follow-up date                             │
-    │  ✓ Document session details                                 │
-    └─────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-    ┌─────────────────────────────────────────────────────────────┐
-    │                   STEP 8: PRAISE / ACTION                   │
-    │                         (2-3 minutes)                       │
-    ├─────────────────────────────────────────────────────────────┤
-    │  ✓ Send praising/acknowledgment emails                      │
-    │  ✓ Create motivational action plan                          │
-    │  ✓ Provide rewards/recognition if applicable                │
-    │  ✓ Implement corrective actions if needed                   │
-    │  ✓ End on positive, encouraging note                        │
-    └─────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-              ┌────────────────────────┐
-              │    SESSION COMPLETE    │
-              │                        │
-              │  ✓ Documentation Filed │
-              │  ✓ Follow-up Scheduled │
-              │  ✓ Agent Acknowledged  │
-              └────────────────────────┘
-```
+**Session Closeout Checklist:**
+- Documentation filed
+- Follow-up scheduled
+- Agent acknowledgment captured
 
 **Documentation Required:**
 - Coaching session form
@@ -822,119 +572,20 @@ Based on the Effective Coaching methodology, the following coaching approaches a
 
 **Structure:**
 
-```
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                                                                           ║
-║                    CORRECTIVE COACHING SESSION                            ║
-║                    (Performance/Behavioral Issues)                        ║
-║                                                                           ║
-╚═══════════════════════════════════════════════════════════════════════════╝
+| Step | Focus | Key Activities |
+| --- | --- | --- |
+| 1. Opening the Meeting | Set tone and purpose | State purpose clearly and professionally; use non-accusatory language; create a safe environment; reference specific reason for discussion |
+| 2. Getting Agreement | Align on current state | Specify behavior using data and examples; clarify expectations; outline consequences; confirm agent understanding and agreement |
+| 3. Exploring Alternatives | Co-create solutions | Acknowledge agent suggestions; evaluate benefits/drawbacks; contribute additional options; identify root causes together |
+| 4. Getting Commitment to Act | Secure action plan | Ask probing and closed questions; encourage dialogue; set S.M.A.R.T targets; document mutual commitments |
+| 5. Handling Excuses (as needed) | Address resistance | Rephrase misunderstandings; reset expectations; use corrective yet professional language; remain calm and non-defensive |
+| 6. Closing the Meeting | Finalize plan | Summarize discussion; review action items; confirm understanding; document agreement; schedule follow-up; close professionally |
 
-
-    ┌──────────────────────────────────────────────────────────────┐
-    │              STEP 1: OPENING THE MEETING                     │
-    ├──────────────────────────────────────────────────────────────┤
-    │  • State purpose clearly and professionally                  │
-    │  • Non-accusatory approach                                   │
-    │  • Create safe environment                                   │
-    │  • Refer to specific reason for meeting                      │
-    └────────────────────────┬─────────────────────────────────────┘
-                             │
-                             ▼
-    ┌──────────────────────────────────────────────────────────────┐
-    │              STEP 2: GETTING AGREEMENT                       │
-    ├──────────────────────────────────────────────────────────────┤
-    │  SPECIFY BEHAVIOR:                                           │
-    │  • Use numbers and specific examples                         │
-    │  • Cite concrete instances                                   │
-    │  • Show data/metrics                                         │
-    │                                                              │
-    │  CLARIFY EXPECTATIONS:                                       │
-    │  • State clear performance standards                         │
-    │  • Explain policy requirements                               │
-    │  • Ask for agent agreement on issue                          │
-    │                                                              │
-    │  CLARIFY CONSEQUENCES:                                       │
-    │  • Outline what happens if no improvement                    │
-    │  • Be clear and direct                                       │
-    │  • Ensure understanding of seriousness                       │
-    └────────────────────────┬─────────────────────────────────────┘
-                             │
-                             ▼
-    ┌──────────────────────────────────────────────────────────────┐
-    │            STEP 3: EXPLORING ALTERNATIVES                    │
-    ├──────────────────────────────────────────────────────────────┤
-    │  REACT:                                                      │
-    │  • Acknowledge employee suggestions                          │
-    │  • Discuss benefits and drawbacks                            │
-    │  • Ask for other suggestions                                 │
-    │                                                              │
-    │  EXPAND:                                                     │
-    │  • Offer your suggestions                                    │
-    │  • Discuss benefits and drawbacks                            │
-    │  • Identify root cause collaboratively                       │
-    │  • Be part of the solution                                   │
-    └────────────────────────┬─────────────────────────────────────┘
-                             │
-                             ▼
-    ┌──────────────────────────────────────────────────────────────┐
-    │         STEP 4: GETTING COMMITMENT TO ACT                    │
-    ├──────────────────────────────────────────────────────────────┤
-    │  PROBE:                                                      │
-    │  • Ask open-ended questions                                  │
-    │  • Use closed questions for specific focus                   │
-    │  • Encourage dialogue                                        │
-    │                                                              │
-    │  SUPPORT:                                                    │
-    │  • Agree and praise constructive input                       │
-    │  • Provide space for concerns                                │
-    │  • Set S.M.A.R.T targets together                            │
-    │  • Document commitments                                      │
-    └────────────────────────┬─────────────────────────────────────┘
-                             │
-                             ▼
-    ┌──────────────────────────────────────────────────────────────┐
-    │              STEP 5: HANDLING EXCUSES                        │
-    │                  (Use As Needed)                             │
-    ├──────────────────────────────────────────────────────────────┤
-    │  • Rephrase your point if misunderstood                      │
-    │  • Reword remarks perceived negatively                       │
-    │  • Set clear expectations                                    │
-    │  • Use corrective language                                   │
-    │  • Stay professional and calm                                │
-    │  • Don't get defensive                                       │
-    └────────────────────────┬─────────────────────────────────────┘
-                             │
-                             ▼
-    ┌──────────────────────────────────────────────────────────────┐
-    │            STEP 6: CLOSING THE MEETING                       │
-    ├──────────────────────────────────────────────────────────────┤
-    │  SUMMARIZE:                                                  │
-    │  • Consolidate what was discussed                            │
-    │  • Review action items                                       │
-    │  • Confirm understanding                                     │
-    │                                                              │
-    │  DOCUMENT:                                                   │
-    │  • Complete formal coaching form                             │
-    │  • Agent signature required                                  │
-    │  • File in personnel record                                  │
-    │                                                              │
-    │  FOLLOW-UP:                                                  │
-    │  • Set specific follow-up date                               │
-    │  • Thank employee for participation                          │
-    │  • End professionally                                        │
-    └────────────────────────┬─────────────────────────────────────┘
-                             │
-                             ▼
-                ┌─────────────────────────────┐
-                │   CORRECTIVE ACTION PLAN    │
-                │                             │
-                │  ✓ Documented               │
-                │  ✓ Signed by Agent          │
-                │  ✓ Follow-up Scheduled      │
-                │  ✓ HR Notified (if needed)  │
-                └─────────────────────────────┘
-```
+**Corrective Action Plan Requirements:**
+- Documented plan on file
+- Agent signature obtained
+- Follow-up date scheduled
+- HR notified when escalation is required
 
 **Documentation:**
 - Formal coaching form
@@ -1084,27 +735,19 @@ Based on personality and engagement levels, different coaching approaches are ne
 
 ### Reporting Hierarchy
 
-```
-                    ┌──────────────────────┐
-                    │  Operations Manager  │
-                    └──────────┬───────────┘
-                               │
-                   ┌───────────┴───────────┐
-                   ▼                       ▼
-        ┌────────────────────┐   ┌─────────────────┐
-        │    QA Analyst      │   │  Asst Ops Mgr   │
-        │                    │   │                 │
-        │  Coverage: 2 Teams │   │  Supervises:    │
-        │  (20-24 Agents)    │   │  4 Team Leaders │
-        └─────────┬──────────┘   └────────┬────────┘
-                  │                       │
-          ┌───────┴────────┐         ┌────┴─────┬──────┬──────┐
-          ▼                ▼         ▼          ▼      ▼      ▼
-       ┌────┐          ┌────┐    ┌────┐    ┌────┐  ┌────┐ ┌────┐
-       │TL-1│          │TL-2│    │TL-3│    │TL-4│  │TL-5│ │TL-6│
-       │    │          │    │    │    │    │    │  │    │ │    │
-       │10-12│         │10-12│   │10-12│   │10-12│ │10-12││10-12│
-       └────┘          └────┘    └────┘    └────┘  └────┘ └────┘
+```mermaid
+flowchart TD
+    classDef leader fill:#0d47a1,color:#ffffff,stroke:#062863,stroke-width:2px
+    classDef support fill:#e3f2fd,color:#0d47a1,stroke:#90caf9
+
+    OM[Operations Manager]:::leader --> QA[QA Analyst<br/>Coverage: 2 Teams (20-24 Agents)]:::support
+    OM --> AOM[Assistant Ops Manager<br/>Supervises 4 Team Leaders]:::support
+    QA --> TL1[Team Leader 1<br/>10-12 Agents]:::support
+    QA --> TL2[Team Leader 2<br/>10-12 Agents]:::support
+    AOM --> TL3[Team Leader 3<br/>10-12 Agents]:::support
+    AOM --> TL4[Team Leader 4<br/>10-12 Agents]:::support
+    AOM --> TL5[Team Leader 5<br/>10-12 Agents]:::support
+    AOM --> TL6[Team Leader 6<br/>10-12 Agents]:::support
 ```
 
 ### QA Coverage Model
@@ -1330,133 +973,62 @@ Based on personality and engagement levels, different coaching approaches are ne
 
 ### Complete Operational Flow
 
-```
-╔═══════════════════════════════════════════════════════════════════════════╗
-║                      COMPLETE OPERATIONAL HIERARCHY                       ║
-║                   AT-A-GLANCE REFERENCE CHART                             ║
-╚═══════════════════════════════════════════════════════════════════════════╝
+#### Leadership Structure
 
+| Role | Supervises | Coverage | Key Focus |
+| --- | --- | --- | --- |
+| Operations Manager | Maximum 2 Assistant Ops Managers | 80-96 Agents | Strategic oversight, performance, budget management |
+| Assistant Operations Manager (Per Division) | 4 Team Leaders | 40-48 Agents | Team performance, TL coaching, resource allocation |
+| Team Leader (Per Team) | 10-12 Agents | 1 Team | Daily supervision, coaching, performance monitoring |
+| QA Analyst | 2 Teams (20-24 Agents) | 20-24 Agents | Quality monitoring, reporting, coaching recommendations |
 
-┌────────────────────────────────────────────────────────────────────────────┐
-│                        LEADERSHIP STRUCTURE                                │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│  OPERATIONS MANAGER                                                        │
-│  ├─ Supervises: Maximum 2 Assistant Ops Managers                          │
-│  ├─ Total Coverage: 80-96 Agents                                          │
-│  └─ Key Focus: Strategic oversight, performance, budget                    │
-│                                                                            │
-│  ASSISTANT OPERATIONS MANAGER (Per Division)                               │
-│  ├─ Supervises: 4 Team Leaders                                            │
-│  ├─ Total Coverage: 40-48 Agents                                          │
-│  └─ Key Focus: Team performance, TL coaching, resource allocation          │
-│                                                                            │
-│  TEAM LEADER (Per Team)                                                    │
-│  ├─ Supervises: 10-12 Agents                                              │
-│  ├─ Total Coverage: 1 Team                                                │
-│  └─ Key Focus: Daily supervision, coaching, performance monitoring         │
-│                                                                            │
-│  QA ANALYST                                                                │
-│  ├─ Monitors: 2 Teams (20-24 Agents)                                      │
-│  ├─ Reports To: Operations Manager                                        │
-│  └─ Key Focus: Quality monitoring, reporting, coaching recommendations     │
-│                                                                            │
-└────────────────────────────────────────────────────────────────────────────┘
+#### Coaching Framework
 
+| Session Type | Purpose | Duration | Frequency | Documentation |
+| --- | --- | --- | --- | --- |
+| On-Spot Feedback | Real-time, immediate corrections | 1-3 minutes | As needed | Not typically documented |
+| Formal 1-on-1 | Structured 8-step coaching | 30-45 minutes | Weekly minimum | Coaching session form required |
+| Side-by-Side | Live call monitoring & coaching | 1-2 hours | Bi-weekly or as needed | Notes captured in coaching log |
+| Corrective Session | Performance/behavior issues | 30-60 minutes | As needed | Formal documentation required |
 
-┌────────────────────────────────────────────────────────────────────────────┐
-│                         COACHING FRAMEWORK                                 │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│  ┌──────────────────────┐                                                 │
-│  │  ON-SPOT FEEDBACK    │  Real-time, immediate corrections               │
-│  └──────────────────────┘  Duration: 1-3 minutes                          │
-│                            Frequency: As needed                            │
-│                                                                            │
-│  ┌──────────────────────┐                                                 │
-│  │  FORMAL 1-ON-1       │  Structured 8-step coaching                     │
-│  └──────────────────────┘  Duration: 30-45 minutes                        │
-│                            Frequency: Weekly minimum                       │
-│                                                                            │
-│  ┌──────────────────────┐                                                 │
-│  │  SIDE-BY-SIDE        │  Live call monitoring & coaching                │
-│  └──────────────────────┘  Duration: 1-2 hours                            │
-│                            Frequency: Bi-weekly or as needed               │
-│                                                                            │
-│  ┌──────────────────────┐                                                 │
-│  │  CORRECTIVE SESSION  │  Performance/behavior issues                    │
-│  └──────────────────────┘  Duration: 30-60 minutes                        │
-│                            Frequency: As needed                            │
-│                            Documentation: Required                         │
-│                                                                            │
-└────────────────────────────────────────────────────────────────────────────┘
+#### QA Reporting Cycle
 
+| Cadence | Deliverables |
+| --- | --- |
+| Daily | Real-time call monitoring; On-spot quality observations |
+| Weekly | Individual quality scorecards; Team quality summary reports |
+| Bi-Weekly | Disposition accuracy analysis |
+| Monthly | QA trends & analysis reports; Calibration sessions with Team Leaders |
 
-┌────────────────────────────────────────────────────────────────────────────┐
-│                           QA REPORTING CYCLE                               │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│  DAILY:        • Real-time call monitoring                                │
-│                • On-spot quality observations                              │
-│                                                                            │
-│  WEEKLY:       • Individual Quality Scorecards                            │
-│                • Team Quality Summary Reports                              │
-│                                                                            │
-│  BI-WEEKLY:    • Disposition Accuracy Analysis                            │
-│                                                                            │
-│  MONTHLY:      • QA Trends & Analysis Reports                             │
-│                • Calibration Sessions with Team Leaders                    │
-│                                                                            │
-└────────────────────────────────────────────────────────────────────────────┘
+#### Key Performance Indicators
 
+| Level | KPI | Target |
+| --- | --- | --- |
+| Agent | Conversion Rate | 8-12% |
+| Agent | Quality Score | 85%+ |
+| Agent | Schedule Adherence | 95%+ |
+| Agent | Calls Per Hour | 15-25 (campaign dependent) |
+| Team Leader | Team Conversion | 10%+ |
+| Team Leader | Team Quality Average | 87%+ |
+| Team Leader | Coaching Completion | 100% |
+| Team Leader | Agent Retention | 90%+ |
+| Operations | Overall Conversion | 10-12% |
+| Operations | Overall Quality | 88%+ |
+| Operations | Agent Retention | 85%+ |
+| Operations | Customer Satisfaction | 4.2+/5.0 |
 
-┌────────────────────────────────────────────────────────────────────────────┐
-│                     KEY PERFORMANCE INDICATORS                             │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│  AGENT LEVEL:                                                              │
-│  • Conversion Rate: 8-12%                                                  │
-│  • Quality Score: 85%+                                                     │
-│  • Schedule Adherence: 95%+                                                │
-│  • Calls Per Hour: 15-25 (campaign dependent)                             │
-│                                                                            │
-│  TEAM LEADER LEVEL:                                                        │
-│  • Team Conversion: 10%+                                                   │
-│  • Team Quality Average: 87%+                                              │
-│  • Coaching Completion: 100%                                               │
-│  • Agent Retention: 90%+                                                   │
-│                                                                            │
-│  OPERATIONS LEVEL:                                                         │
-│  • Overall Conversion: 10-12%                                              │
-│  • Overall Quality: 88%+                                                   │
-│  • Agent Retention: 85%+                                                   │
-│  • Customer Satisfaction: 4.2+/5.0                                         │
-│                                                                            │
-└────────────────────────────────────────────────────────────────────────────┘
+#### Physical vs Virtual Models
 
+**Identical Elements:** Reporting structure (all levels); Span of control ratios; Coaching framework and methodology; KPIs and performance standards; QA coverage model.
 
-┌────────────────────────────────────────────────────────────────────────────┐
-│                    PHYSICAL vs VIRTUAL MODELS                              │
-├────────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│  IDENTICAL ELEMENTS:                                                       │
-│  ✓ Reporting structure (all levels)                                       │
-│  ✓ Span of control ratios                                                 │
-│  ✓ Coaching framework and methodology                                     │
-│  ✓ KPIs and performance standards                                         │
-│  ✓ QA coverage model                                                      │
-│                                                                            │
-│  DIFFERENT ELEMENTS:                                                       │
-│                                                                            │
-│  PHYSICAL:                    │  VIRTUAL:                                 │
-│  • Office facility            │  • Remote/home offices                    │
-│  • Visual monitoring          │  • Dashboard monitoring                   │
-│  • In-person meetings         │  • Video conferencing                     │
-│  • Server-based systems       │  • Cloud-based platforms                  │
-│  • Direct floor supervision   │  • Digital supervision tools              │
-│                                                                            │
-└────────────────────────────────────────────────────────────────────────────┘
-```
+| Aspect | Physical Model | Virtual Model |
+| --- | --- | --- |
+| Workspace | Office facility | Remote/home offices |
+| Monitoring | Visual monitoring | Dashboard monitoring |
+| Meetings | In-person meetings | Video conferencing |
+| Systems | Server-based systems | Cloud-based platforms |
+| Supervision | Direct floor supervision | Digital supervision tools |
+
 
 ---
 
